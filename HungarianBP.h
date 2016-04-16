@@ -14,8 +14,8 @@
  */
 
 
-#ifndef MATCHINGBP_H
-#define MATCHINGBP_H 1
+#ifndef HBP_H
+#define HBP_H 1
 
 #include "PiSBPSolver.h"
 
@@ -60,6 +60,9 @@ namespace zzhang{
       */
      class  DLLAPI CHungarianBP : public CPiSBPDualSolver{
      public:
+	  /**
+	   * Hungarian-BP Iterations
+	   */
 	  void BPClear(int maxOuterIter, int maxInnerIter);
      protected:
 	  /**
@@ -82,21 +85,48 @@ namespace zzhang{
 	   * Current sum of u and v
 	   */
 	  double m_sum_uv;
+	  /**
+	   * Triplets;
+	   */
 	  std::vector< std::vector<int> > Triplet;
+	  /**
+	   * Initialization
+	   */
 	  virtual bool Init();
+	  /**
+	   * The suffix for storing results;
+	   */
 	  virtual std::string GetStoreSuffix() {
 	       return std::string(".HuBP");
 	  }
+	  /**
+	   * Compute current objective value;
+	   */
 	  virtual void ComputeObj();
+	  /**
+	   * Updating variable u and v.
+	   */
 	  void UpdateUV();
+	  /**
+	   * Tighten the relaxation by adding triplet.
+	   */
 	  void TightenTriplet();
      public:
+	  /**
+	   * Get pointers point to U.
+	   */
 	  double *GetU(){
 	       return m_ui.get();
 	  }
+	  /**
+	   * Get pointers point to V.
+	   */
 	  double *GetV(){
 	       return m_vi.get();
 	  }
+	  /**
+	   * Set u and v.
+	   */
 	  bool setUV(double *u, double *v)
 	  {
 	       memcpy(m_ui.get(), u, sizeof(double) * m_NodeSize);
@@ -104,6 +134,9 @@ namespace zzhang{
 	  }
      public:
 	  virtual ~CHungarianBP();
+	  /**
+	   * Get dual objective
+	   */
 	  void GetDual(double &dual){dual = m_CurrentUB;};
 	 
      };
@@ -112,4 +145,4 @@ namespace zzhang{
 
 
 
-#endif // MATCHINGBP_H
+#endif // HBP_H
