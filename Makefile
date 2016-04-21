@@ -14,4 +14,4 @@ CluComputeObjMex.mexa64:CluComputeObjMex.cpp
 
 clean:
 	rm -rf *.mexa64
-	rm -rf *.cpp
+	rm -rf *.o
